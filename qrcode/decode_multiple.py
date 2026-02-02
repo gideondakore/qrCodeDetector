@@ -2,7 +2,6 @@ from qreader import QReader
 from cv2 import QRCodeDetector, imread
 from pyzbar.pyzbar import decode
 import os
-import cv2 
 
 # Get script directory
 script_dir = os.path.dirname(os.path.abspath(__file__))
