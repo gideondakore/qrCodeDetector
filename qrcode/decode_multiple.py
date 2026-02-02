@@ -14,7 +14,10 @@ qreader_reader, cv2_reader, pyzbar_reader = QReader(), QRCodeDetector(), decode
 image_files = (
     'card_national.jpg', 'card2.png', 'qr.png', 'qr2.png', 
     'qr3.png', 'qr4.png', 'voters_blur.png', 'voters1.jpeg', 
-    'voters2.jpg', 'votters_id.jpg'
+    'voters2.jpg', 'votters_id.jpg',
+    'amalilaptop.jpg', 'basitv.jpg', 'basitv2.jpg',
+    'bar.png', 'bar2.png'
+
 )
 
 for img_name in image_files:

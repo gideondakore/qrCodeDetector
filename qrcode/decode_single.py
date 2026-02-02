@@ -8,7 +8,7 @@ qreader = QReader()
 
 # Get the directory where the script is located
 script_dir = os.path.dirname(os.path.abspath(__file__))
-image_path = os.path.join(script_dir, "assets", "card_national.jpg")
+image_path = os.path.join(script_dir, "assets", "amalilaptop.jpg")
 
 # Verify file exists
 if not os.path.exists(image_path):
