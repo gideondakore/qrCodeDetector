@@ -1,0 +1,54 @@
+from qreader import QReader
+from cv2 import QRCodeDetector, imread
+from pyzbar.pyzbar import decode
+import os
+import cv2 
+
+# Get script directory
+script_dir = os.path.dirname(os.path.abspath(__file__))
+assets_dir = os.path.join(script_dir, "assets")
+
+# Initialize readers
+qreader_reader, cv2_reader, pyzbar_reader = QReader(), QRCodeDetector(), decode
+
+image_files = (
+    'card_national.jpg', 'card2.png', 'qr.png', 'qr2.png', 
+    'qr3.png', 'qr4.png', 'voters_blur.png', 'voters1.jpeg', 
+    'voters2.jpg', 'votters_id.jpg'
+)
+
+for img_name in image_files:
+    img_path = os.path.join(assets_dir, img_name)
+    
+    # Check if file exists
+    if not os.path.exists(img_path):
+        print(f"File not found: {img_path}")
+        continue
+    
+    img = imread(img_path)
+    if img is None:
+        print(f"Failed to load: {img_path}")
+        continue
+
+    # Decode with all three readers
+    qreader_out = qreader_reader.detect_and_decode(image=img)
+    pyzbar_out = pyzbar_reader(image=img)
+
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    gray = cv2.GaussianBlur(gray, (5, 5), 0)
+    gray = cv2.adaptiveThreshold(
+        gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
+        cv2.THRESH_BINARY, 11, 2
+    )
+
+    detector = cv2.QRCodeDetector()
+    data, _, _ = detector.detectAndDecode(gray)
+
+    # cv2_out = cv2_reader.detectAndDecode(img=img)[0]
+    pyzbar_out = tuple(out.data.decode('utf-8') for out in pyzbar_out)
+
+    print(f"Image: {img_name}")
+    print(f"  QReader: {qreader_out}")
+    print(f"  OpenCV:  {data}")
+    print(f"  pyzbar:  {pyzbar_out}")
+    print()
