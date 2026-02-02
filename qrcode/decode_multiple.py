@@ -36,22 +36,10 @@ for img_name in image_files:
     # Decode with all three readers
     qreader_out = qreader_reader.detect_and_decode(image=img)
     pyzbar_out = pyzbar_reader(image=img)
-
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    gray = cv2.GaussianBlur(gray, (5, 5), 0)
-    gray = cv2.adaptiveThreshold(
-        gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
-        cv2.THRESH_BINARY, 11, 2
-    )
-
-    detector = cv2.QRCodeDetector()
-    data, _, _ = detector.detectAndDecode(gray)
-
-    # cv2_out = cv2_reader.detectAndDecode(img=img)[0]
-    pyzbar_out = tuple(out.data.decode('utf-8') for out in pyzbar_out)
+    cv2_out = cv2_reader.detectAndDecode(img=img)[0]
 
     print(f"Image: {img_name}")
     print(f"  QReader: {qreader_out}")
-    print(f"  OpenCV:  {data}")
+    print(f"  OpenCV:  {cv2_out}")
     print(f"  pyzbar:  {pyzbar_out}")
     print()
